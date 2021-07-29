@@ -38,27 +38,27 @@ function preload(){
 }
 
 function setup() {
-  createCanvas(600, 200);
+  createCanvas(windowWidth, windowHeight);
   
-  trex = createSprite(50,180,20,50);
+  trex = createSprite(50,height-70,20,50);
   trex.addAnimation("running", trex_running);
   trex.addAnimation("collided" ,trex_collided);
   trex.scale = 0.5;
   
-  ground = createSprite(200,180,400,20);
+  ground = createSprite(width/2,height,width,2);
   ground.addImage("ground",groundImage);
   ground.x = ground.width /2;
   
-   gameOver = createSprite(300,100);
+   gameOver = createSprite(width/2,height/2- 50);
   gameOver.addImage(gameOverImg);
   
-  restart = createSprite(300,140);
+  restart = createSprite(width/2,height/2);
   restart.addImage(restartImg);
   
   gameOver.scale = 0.5;
   restart.scale = 0.5;
   
-  invisibleGround = createSprite(200,190,400,10);
+  invisibleGround = createSprite(width/2,height-10,width,125);
   invisibleGround.visible = false;
   
   //create Obstacle and Cloud Groups
@@ -103,9 +103,10 @@ function draw() {
     }
     
     //jump when the space key is pressed
-    if(keyDown("space")&& trex.y >= 100) {
-        trex.velocityY = -12;
-      jumpSound.play();
+    if((touches.length > 0 || keyDown("SPACE")) && trex.y  >= height-120) {
+      jumpSound.play( )
+      trex.velocityY = -10;
+       touches = [];
     }
     
     //add gravity
@@ -154,8 +155,9 @@ function draw() {
   //stop trex from falling down
   trex.collide(invisibleGround);
   
-  if(mousePressedOver(restart)){
+  if(touches.length>0 || keyDown("SPACE")) {      
     reset();
+    touches = []
   }
   
   
